@@ -1,0 +1,8 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: observability-poc
+  labels:
+    name: observability-poc
+    type: application

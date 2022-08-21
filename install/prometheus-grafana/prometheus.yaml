@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prometheus
+spec:
+  releaseName: prometheus
+  interval: 1m
+  chart:
+    spec:
+      chart: kube-prometheus-stack
+      version: "39.4.0"
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus
+        namespace: observability-system
+
+  values:
+
+    grafana:
+     enabled: true
+     adminPassword: p@ssword
+
+     additionalDataSources:
+      - name: Loki
+        type: loki
+        uid: loki
+        url: http://loki.observability-system.svc.cluster.local:3100
+        access: proxy
+        editable: true
+        jsonData:
+          derivedFields:
+          - datasourceUid: tempo
+            matcherRegex: (((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)))
+            name: TraceID
+            url: "$${__value.raw}"
+        version: 1
+      - name: Tempo
+        type: tempo
+        uid: tempo
+        url: http://tempo.observability-system.svc.cluster.local:3100
+        access: proxy
+        editable: true
+        version: 1
