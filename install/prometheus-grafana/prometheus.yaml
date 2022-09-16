@@ -31,7 +31,7 @@ spec:
         jsonData:
           derivedFields:
           - datasourceUid: tempo
-            matcherRegex: (((\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)(\d+|[a-z]+)))
+            matcherRegex: ((\d+|[a-z]+){5}(\d+|[a-z]+){5}(\d+|[a-z]+){4})
             name: TraceID
             url: "$${__value.raw}"
         version: 1
